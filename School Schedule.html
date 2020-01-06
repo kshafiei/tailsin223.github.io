@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<style>
+
+	#main {
+		position: absolute;
+  		left: 30%;
+ 		width: 40%;
+  		border: 10px solid green;
+  		padding: 7px;
+		top: 20%;
+	}
+
+</style>
+
+<body onload="setSchedule()">
+	<div id="main">
+		<h1 id="left">Time Left: </h1>
+		<h1 id="end"> End of Period: </h1>
+	</div>
+</body>
+
+<script>
+
+	var d = new Date();
+	console.log(d);
+	var h;
+	var m;
+	var s;
+	var start;
+
+	var schedule = {};
+	//0-Sunday 1-Monday... 6-Saturday
+
+	function setSchedule() {
+		day = d.getDay();
+		
+		if (day==1 || day==2 || day==5) {
+			classes = ["SSEP", "Research", "Physics", "Spanish", "APUSH", "Lunch", "English", "Precal", "Statistics"];
+			schedule = {
+				0: ["08:30", "09:00"],
+				1: ["09:05", "09:50"],
+				2: ["09:55", "10:40"],
+				3: ["10:45", "11:30"],
+				4: ["11:35", "12:20"],
+				5: ["12:20", "13:30"],
+				6: ["13:35", "14:20"],
+				7: ["14:25", "15:10"],
+				8: ["15:15", "16:00"]
+			}
+		} else if (day==3) {
+			classes = ["Physics", "SSEP", "Lunch", "APUSH", "Precal"];
+			schedule = {
+				1: ["08:30", "10:05"],
+				2: ["10:10", "11:40"],
+				3: ["11:40", "12:50"],
+				4: ["12:55", "14:25"],
+				5: ["14:30", "16:00"]
+			}
+		} else if (day==4) {
+			classes = ["Research", "Spanish", "Lunch", "English", "Statistics"];
+			schedule = {
+				1: ["08:30", "10:05"],
+				2: ["10:10", "11:40"],
+				3: ["11:40", "12:50"],
+				4: ["12:55", "14:25"],
+				5: ["14:30", "16:00"]
+			}
+		}
+		setTime();
+	}
+
+	window.setInterval(setTime, 1000);
+	var intRed;
+	var redVal;
+
+	function redDown() {
+		document.getElementById("left").style.color = "rgb(" + redVal + ", 0, 0)";
+		if (redVal>0)
+			redVal -= 1;
+	}
+
+	function zero(x) {
+		if (x<10)
+			return "0" + x;
+		return x;
+	}
+
+	
+	function getPeriod() {
+		for(var i in schedule) {
+			times = schedule[i][1].split(":");
+
+			if (h==times[0])
+				if (m<times[1])
+					return i;
+
+			if (h < times[0])
+				return i;
+		}
+	}
+
+	function setTime() {
+		d = new Date();
+		h = zero(String(d.getHours()));
+		m = zero(String(d.getMinutes()));
+		s = zero(String(d.getSeconds()));
+
+		period = getPeriod();
+		current = schedule[period][1];
+		
+		document.getElementById("end").innerHTML = "End of Period: " + current + ":00";
+
+		timeEnd = schedule[period][1].split(":");
+
+		leftH = Math.abs(parseInt(timeEnd[0])-h);
+		if (leftH>12)
+			leftH-=12;
+		if (m>timeEnd[1])
+			leftH--;
+		leftH = zero(leftH);
+
+		leftM = parseInt(timeEnd[1])-m-1;
+		if (leftM<0) {
+			leftM = zero(60+leftM);
+		} else {
+			leftM = zero(leftM);
+		}
+
+		leftS = zero(Math.abs(59-s));
+		if (leftS==60) {
+			leftM++;
+			leftS="00";
+		}
+		document.getElementById("left").innerHTML = "Time Left: " + leftH + ":" + leftM + ":" + leftS;
+		document.getElementById("left").style.color = "rgb(255, 0, 0)";
+		
+		redVal = 100;
+		window.clearInterval(intRed);
+		intRed = window.setInterval(redDown, 100);
+	}
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
