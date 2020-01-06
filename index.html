@@ -36,6 +36,7 @@
 	var start;
 
 	var schedule = {};
+	var normSchedule = {};
 	//0-Sunday 1-Monday... 6-Saturday
 
 	function setSchedule() {
@@ -54,6 +55,19 @@
 				7: ["14:25", "15:10"],
 				8: ["15:15", "16:00"]
 			}
+
+			normSchedule = {
+				0: ["08:30", "09:00"],
+				1: ["09:05", "09:50"],
+				2: ["09:55", "10:40"],
+				3: ["10:45", "11:30"],
+				4: ["11:35", "12:20"],
+				5: ["12:20", "01:30"],
+				6: ["01:35", "02:20"],
+				7: ["02:25", "03:10"],
+				8: ["03:15", "04:00"]
+			}
+
 		} else if (day==3) {
 			classes = ["Physics", "SSEP", "Lunch", "APUSH", "Precal"];
 			schedule = {
@@ -63,6 +77,14 @@
 				4: ["12:55", "14:25"],
 				5: ["14:30", "16:00"]
 			}
+
+			normSchedule = {
+				1: ["08:30", "10:05"],
+				2: ["10:10", "11:40"],
+				3: ["11:40", "12:50"],
+				4: ["12:55", "02:25"],
+				5: ["02:30", "04:00"]
+			}
 		} else if (day==4) {
 			classes = ["Research", "Spanish", "Lunch", "English", "Statistics"];
 			schedule = {
@@ -71,6 +93,14 @@
 				3: ["11:40", "12:50"],
 				4: ["12:55", "14:25"],
 				5: ["14:30", "16:00"]
+			}
+			
+			normSchedule = {
+				1: ["08:30", "10:05"],
+				2: ["10:10", "11:40"],
+				3: ["11:40", "12:50"],
+				4: ["12:55", "02:25"],
+				5: ["02:30", "04:00"]
 			}
 		}
 		setTime();
@@ -113,7 +143,7 @@
 		s = zero(String(d.getSeconds()));
 
 		period = getPeriod();
-		current = schedule[period][1];
+		current = normSchedule[period][1];
 		
 		document.getElementById("end").innerHTML = "End of Period: " + current + ":00";
 
@@ -149,16 +179,3 @@
 </script>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
