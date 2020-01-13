@@ -17,6 +17,10 @@
 		top: 20%;
 	}
 
+	#aBtn {
+		margin: 10px;
+	}
+
 </style>
 
 <body onload="setSchedule()">
@@ -24,6 +28,7 @@
 		<h1 id="left">Time Left: </h1>
 		<h1 id="end"> End of Period: </h1>
 	</div>
+	<input type="button" id="aBtn" value="Assembly Schedule" class="btn btn-primary" onclick="setAssembly()">
 </body>
 
 <script>
@@ -37,12 +42,13 @@
 
 	var schedule = {};
 	var normSchedule = {};
+	assembly = false;
 	//0-Sunday 1-Monday... 6-Saturday
 
 	function setSchedule() {
 		day = d.getDay();
 		
-		if (day==1 || day==2 || day==5) {
+		if (day==1 && !assembly || day==2 && !assembly || day==5 && !assembly) {
 			
 			schedule = {
 				0: ["08:30", "09:00"],
@@ -82,7 +88,7 @@
 				15: ["03:15", "04:00"]
 			}
 
-		} else if (day==3 || day==4) {
+		} else if (day==3 && !assembly|| day==4 && !assembly) {
 			
 			schedule = {
 				1: ["08:30", "10:05"],
@@ -105,8 +111,54 @@
 				7: ["02:25", "02:30"],
 				8: ["02:30", "04:00"]
 			}
+		} else if (assembly) {
+			
+			schedule = {
+				0: ["08:30", "09:15"],
+				1: ["09:15", "09:20"],
+				2: ["09:20", "10:00"],
+				3: ["10:00", "10:05"],
+				4: ["10:05", "10:45"],
+				5: ["10:45", "11:55"],
+				6: ["11:55", "13:00"],
+				7: ["13:00", "13:05"],
+				8: ["13:05", "13:45"],
+				9: ["13:45", "13:50"],
+				10: ["13:50", "14:30"],
+				11: ["14:30", "14:35"],
+				12: ["14:35", "15:15"],
+				13: ["15:15", "15:20"],
+				14: ["15:20", "16:00"]
+			}
+
+			normSchedule = {
+				0: ["08:30", "09:15"],
+				1: ["09:15", "09:20"],
+				2: ["09:20", "10:00"],
+				3: ["10:00", "10:05"],
+				4: ["10:05", "10:45"],
+				5: ["10:45", "11:55"],
+				6: ["11:55", "01:00"],
+				7: ["01:00", "01:05"],
+				8: ["01:05", "01:45"],
+				9: ["01:45", "01:50"],
+				10: ["01:50", "02:30"],
+				11: ["02:30", "02:35"],
+				12: ["02:35", "03:15"],
+				13: ["03:15", "03:20"],
+				14: ["03:20", "04:00"]
+			}
 		}
 		setTime();
+	}
+
+	function setAssembly() {
+		if (assembly == false) {
+			assembly = true;
+		} else {
+			assembly = false;
+		}
+		setSchedule();
 	}
 
 	window.setInterval(setTime, 1000);
@@ -182,16 +234,5 @@
 </script>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
 
 
